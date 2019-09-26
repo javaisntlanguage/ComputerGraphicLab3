@@ -15,6 +15,7 @@ namespace WindowsFormsApp3
         Bitmap bmp;
         Point point1;
         Point point2;
+        List<Point> Coordinates;
         bool flag;
         Graphics g;
         public Form1()
@@ -22,12 +23,13 @@ namespace WindowsFormsApp3
             InitializeComponent();
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             flag = false;
+            Coordinates = new List<Point>();
 
         }
 
         private void PutPixel(Color color, int x, int y) //рисовать пиксель
         {
-            bmp.SetPixel(x,y,color);
+            if (x > 0 && x < bmp.Width && y > 0 && y < bmp.Height) bmp.SetPixel(x, y, color);
         }
 
         public void Bresenham4Line(Color clr, int x0, int y0,int x1, int y1)
@@ -83,6 +85,71 @@ namespace WindowsFormsApp3
             }
         }
 
+        int OutCode(int x, int y, int X1, int Y1, int X2, int Y2) //определить, с какой стороны от прямоугольника точка
+        {
+            int code = 0;
+            if (x < X1) code |= 0x01;//слева
+            if (y < Y1) code |= 0x02;//сверху
+            if (x > X2) code |= 0x04;//справа
+            if (y > Y2) code |= 0x08;//снизу
+            return code;
+        }
+
+        void Swap(ref int a,ref int b) //поменять переменные местами
+        {
+            a += b;
+            b = a - b;
+            a -=b;
+        }
+
+        void ClipLine(int x1, int y1, int x2, int y2, int X1, int Y1, int X2, int Y2)
+        {
+            int code1 = OutCode(x1, y1, X1, Y1, X2, Y2);
+            int code2 = OutCode(x2, y2, X1, Y1, X2, Y2);
+            bool inside = (code1 | code2) == 0;//внутри
+            bool outside = (code1 & code2) != 0;//снаружи
+            if (!outside)
+            {
+                while (!outside && !inside)
+                {
+                    if (code1 == 0)
+                    {
+                        Swap(ref x1, ref x2);
+                        Swap(ref y1, ref y2);
+                        Swap(ref code1, ref code2);
+                    }
+                    byte res = (byte)code1;
+                    if ( (res & 0x01) == 0x01) //слева
+                    {
+                        y1 += (y2 - y1) * (X1 - x1) / (x2 - x1);
+                        x1 = X1;
+                    }
+                    if ( (res & 0x02) == 0x02)//сверху
+                    {
+                        x1 += (x2 - x1) * (Y1 - y1) / (y2 - y1);
+                        y1 = Y1;
+                    }
+                    if ( (res & 0x04) == 0x04)//справа
+                    {
+                        y1 += (y2 - y1) * (X2 - x1) / (x2 - x1);
+                        x1 = X2;
+                    }
+                    if ( (res & 0x08) == 0x08)//снизу
+                    {
+                        x1 += (x2 - x1) * (Y2 - y1) / (y2 - y1);
+                        y1 = Y2;
+                    }
+
+                    code1 = OutCode(x1, y1, X1, Y1, X2, Y2);
+                    code2 = OutCode(x2, y2, X1, Y1, X2, Y2);
+                    outside = (code1 & code2) != 0;
+                    inside = (code1 | code2) == 0;
+                }
+
+                Bresenham4Line(Color.Blue, x1, y1, x2, y2);
+            }
+        }
+
         private void DrawRectangle(Color clr, Point point1, Point point2) //рисовать прямоугольник
         {
             Bresenham4Line(clr, point1.X, point1.Y, point2.X, point1.Y);//верх
@@ -91,90 +158,77 @@ namespace WindowsFormsApp3
             Bresenham4Line(clr, point2.X, point1.Y, point2.X, point2.Y);//право
         }
 
-        void Pixel4(int x, int y, int _x, int _y, Color color) // Рисование пикселя для первого квадранта, и, симметрично, для остальных
+        private void pictureBox1_DownClick(object sender, MouseEventArgs e) //зажатие клавиши мыши
         {
-            PutPixel(color, x + _x, y + _y);
-            PutPixel(color, x + _x, y - _y);
-            PutPixel(color, x - _x, y - _y);
-            PutPixel(color, x - _x, y + _y);
-        }
-
-        void DrawElipse(int x, int y, int a, int b, Color color)
-        {
-            int _x = 0; // Компонента x
-            int _y = b; // Компонента y
-            int a_sqr = a * a; // a^2, a - большая полуось
-            int b_sqr = b * b; // b^2, b - малая полуось
-            int delta = 4 * b_sqr * ((_x + 1) * (_x + 1)) + a_sqr * ((2 * _y - 1) * (2 * _y - 1)) - 4 * a_sqr * b_sqr; // Функция координат точки (x+1, y-1/2)
-            while (a_sqr * (2 * _y - 1) > 2 * b_sqr * (_x + 1)) // Первая часть дуги
+            if (e.Button == MouseButtons.Right)
             {
-                Pixel4(x, y, _x, _y, color);
-                if (delta < 0) // Переход по горизонтали
-                {
-                    _x++;
-                    delta += 4 * b_sqr * (2 * _x + 3);
-                }
-                else // Переход по диагонали
-                {
-                    _x++;
-                    delta = delta - 8 * a_sqr * (_y - 1) + 4 * b_sqr * (2 * _x + 3);
-                    _y--;
-                }
+                    point1 = new Point(e.X, e.Y); //Сохраняем точку
             }
-            delta = b_sqr * ((2 * _x + 1) * (2 * _x + 1)) + 4 * a_sqr * ((_y + 1) * (_y + 1)) - 4 * a_sqr * b_sqr; // Функция координат точки (x+1/2, y-1)
-            while (_y + 1 != 0) // Вторая часть дуги, если не выполняется условие первого цикла, значит выполняется a^2(2y - 1) <= 2b^2(x + 1)
-            {
-                Pixel4(x, y, _x, _y, color);
-                if (delta < 0) // Переход по вертикали
-                {
-                    _y--;
-                    delta += 4 * a_sqr * (2 * _y + 3);
-                }
-                else // Переход по диагонали
-                {
-                    _y--;
-                    delta = delta - 8 * b_sqr * (_x + 1) + 4 * a_sqr * (2 * _y + 3);
-                    _x++;
-                }
-            }
-        }
-
-        private void pictureBox1_DownClick(object sender, MouseEventArgs e) //зажатие ЛКМ
-        {
-            if (!flag)//если нет рисунка
-            {
-                point1 = new Point(e.X, e.Y); //Сохраняем точку
-                
-            }
-            
 
         }
 
-        private void pictureBox1_UpClick(object sender, MouseEventArgs e)//Отжатие ЛКМ
+        private void pictureBox1_UpClick(object sender, MouseEventArgs e)//Отжатие клавиши мыши
         {
-            if (!flag)//если нет рисунка
+            if (e.Button == MouseButtons.Right)
             {
-                pictureBox1.Image = bmp; //отображаем
-                g = Graphics.FromImage(pictureBox1.Image);
-                flag = true;//рисунок есть
-                point2 = new Point(e.X, e.Y);//сохраняем вторую точку
-                
-                DrawRectangle(Color.Black, point1, point2);//рисуем прямоугольник
-                var cx = Convert.ToInt32(Math.Abs((point2.X + point1.X) / 2));//абсцисса центра 
-                var cy = Convert.ToInt32(Math.Abs((point2.Y + point1.Y) / 2));//ордината центра
-                var circleCenter = new Point(cx, cy);//сохраняем центр
-                var circleLenghtY = Math.Abs(point1.Y - circleCenter.Y);//длина элипса по оси ординат
-                var circleLenghtX = Math.Abs(point1.X - circleCenter.X);//длина элипса по оси абсцисс
-                DrawElipse(circleCenter.X, circleCenter.Y, circleLenghtX, circleLenghtY, Color.Black);//рисуем элипс
+                if (Coordinates.Count > 0)
+                {
+                    pictureBox1.Image = bmp; //отображаем
+                    if (!flag)//если нет рисунка
+                    {
+                        g = Graphics.FromImage(pictureBox1.Image);
+                        flag = true;//рисунок есть
+                        point2 = new Point(e.X, e.Y);//сохраняем вторую точку
+
+                        DrawRectangle(Color.Black, point1, point2);//рисуем прямоугольник
+                        int X1 = point1.X;
+                        int Y1 = point1.Y;
+                        int X2 = point2.X;
+                        int Y2 = point2.Y;
+                        if (X1 > X2) Swap(ref X1, ref X2);
+                        if (Y1 > Y2) Swap(ref Y1, ref Y2);
+                        for (int i = 0; i < Coordinates.Count - 1; i++)
+                        {
+                            Bresenham4Line(Color.Red, Coordinates[i].X, Coordinates[i].Y, //соединяет 2 последние точки
+                                       Coordinates[i + 1].X, Coordinates[i + 1].Y);
+                            ClipLine(Coordinates[i].X, Coordinates[i].Y, Coordinates[i + 1].X, Coordinates[i + 1].Y, X1, Y1, X2, Y2);
+                        }
+                    }
+                    else
+                    {
+                        g.Clear(Color.White);//очищаем область
+                                             //pictureBox1.Image = bmp; //отображаем
+                        flag = false;//рисунка нет
+                        pictureBox1_UpClick(sender, e);
+                    }
+                }
             }
-            else
+            else if(e.Button == MouseButtons.Left)
             {
+                var p = new Point(e.X, e.Y);
+                Coordinates.Add(p);//добавляем в листок с точками
+                if (Coordinates.Count == 1)//если 1 точка
+                {
+                    PutPixel(Color.Black,e.X, e.Y);//делаем пиксель черным
+                } 
+                else //если есть точки
+                {
+                    Bresenham4Line(Color.Red, Coordinates[Coordinates.Count-1].X, Coordinates[Coordinates.Count-1].Y, //соединяет 2 последние точки
+                                   Coordinates[Coordinates.Count - 2].X, Coordinates[Coordinates.Count - 2].Y);
+                }
+            }
+            pictureBox1.Image = bmp; //отображаем
+        }
+
+        private void pictureBox1_Click(object sender, KeyEventArgs e)
+        {
+            if(e.KeyData == Keys.Space)
+            {
+                Coordinates.Clear();
                 g.Clear(Color.White);//очищаем область
                 pictureBox1.Image = bmp; //отображаем
-                flag = false;//рисунка нет
+
             }
-
         }
-
     }
 }

@@ -41,6 +41,7 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_DownClick);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_UpClick);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pictureBox1_Click);
             // 
             // Form1
             // 
