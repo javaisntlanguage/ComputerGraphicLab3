@@ -17,3 +17,23 @@ C:\Users\User\Desktop\3 курс\Компьютерная графика\Compute
 C:\Users\User\Desktop\3 курс\Компьютерная графика\ComputerGraphicLab2\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.csproj.CoreCompileInputs.cache
 C:\Users\User\Desktop\3 курс\Компьютерная графика\ComputerGraphicLab2\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.exe
 C:\Users\User\Desktop\3 курс\Компьютерная графика\ComputerGraphicLab2\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.pdb
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.exe.config
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.exe
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.pdb
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.csprojAssemblyReference.cache
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.Form1.resources
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.Properties.Resources.resources
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.csproj.GenerateResource.cache
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.exe
+C:\Users\User\Desktop\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.pdb
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.exe.config
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.exe
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.pdb
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.csprojAssemblyReference.cache
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.Form1.resources
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.Properties.Resources.resources
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.csproj.GenerateResource.cache
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.exe
+C:\Users\User\Desktop\компьютерная графика\ComputerGraphicLab3\ComputerGraphicLab3\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.pdb
